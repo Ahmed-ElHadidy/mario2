@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
-public class Player extends Node implements character  {
+public class Player implements character  {
 	private boolean canjump= true;
 	private Point2D playerVelocity = new Point2D(0,0);
 	private ImageView playerimage ;
@@ -31,7 +31,7 @@ public class Player extends Node implements character  {
 		}
 		if(isPressed(KeyCode.A,Keys)&&playerimage.getTranslateX()>=5)
 			moveX(-5,platforms);
-		if(isPressed(KeyCode.D,Keys)&&playerimage.getTranslateX()+40<levelwidth-5)
+		if(isPressed(KeyCode.D,Keys)&&playerimage.getTranslateX()+16<levelwidth-5)
 			moveX(5,platforms);
 		if(playerVelocity.getY()<10)
 			playerVelocity= playerVelocity.add(0,1);
@@ -108,28 +108,6 @@ public class Player extends Node implements character  {
 	public Node getplayerimage() {
 		return playerimage;
 	}
-
-	@Override
-	protected boolean impl_computeContains(double arg0, double arg1) {
-		
-		return false;
-	}
-
-	@Override
-	public BaseBounds impl_computeGeomBounds(BaseBounds arg0, BaseTransform arg1) {
-		return null;
-	}
-
-	@Override
-	protected NGNode impl_createPeer() {
-		return null;
-	}
-
-	@Override
-	public Object impl_processMXNode(MXNodeAlgorithm arg0, MXNodeAlgorithmContext arg1) {
-		return null;
-	}
-	
 
 }
 
