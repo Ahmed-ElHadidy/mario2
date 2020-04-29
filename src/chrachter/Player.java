@@ -20,7 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-public class Player extends Pane implements character  {
+public class Player implements character  {
 	private boolean canjump= true;
 	private Point2D playerVelocity = new Point2D(0,0);
 	private ImageView playerimage ;
@@ -42,13 +42,13 @@ public class Player extends Pane implements character  {
 		}
 		if(isPressed(KeyCode.A,Keys)&&playerimage.getTranslateX()>=5) {
 			moveX(-5,platforms);
-			//setScaleX(-1);
+			playerimage.setScaleX(-1);
 			animation.play();
 			
 		}
 		if(isPressed(KeyCode.D,Keys)&&playerimage.getTranslateX()+30<levelwidth-5) {
 			moveX(5,platforms);
-			//setScaleX(1);
+			playerimage.setScaleX(1);
 			animation.play();
 		}
 		if(playerVelocity.getY()<10)
