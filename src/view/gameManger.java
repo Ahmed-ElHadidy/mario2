@@ -29,7 +29,7 @@ public class gameManger {
 			"000000001110000000000000000000",
 			"000000000000011100000000000000",
 			"000001110000000000011100001100",
-			"1111111100111100011111100111111"
+			"111111110011110001111110011111"
 			};
 	
 	private int levelwidth;
@@ -52,7 +52,9 @@ public class gameManger {
 		mainscene.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
-				Keys.put(event.getCode(),false);	
+				Keys.put(event.getCode(),false);
+				player.animation.stop();
+				player.setplayerimageViewport();
 			}
 		});
 		
@@ -87,7 +89,7 @@ public class gameManger {
 		}
 		
 		player = new Player();
-		player.createplayer(0, 300, 16, 32, gamepane);
+		player.createplayer(10, 300, gamepane);
 		player.getplayerimage().translateXProperty().addListener((obs,old,newvalue)->{
 			int offset = newvalue.intValue();
 			if(offset>384 && offset<levelwidth-384)

@@ -11,16 +11,27 @@ import com.sun.javafx.jmx.MXNodeAlgorithmContext;
 import com.sun.javafx.sg.prism.NGNode;
 
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
-public class Player implements character  {
+public class Player extends Pane implements character  {
 	private boolean canjump= true;
 	private Point2D playerVelocity = new Point2D(0,0);
 	private ImageView playerimage ;
+	public SpriteAnimation animation;
+	
+	int count = 3;
+    int columns = 3;
+    int offsetX = 96;
+    double offsetY = 32.5;
+    int width = 16;
+    int height = 16;
 	
 		
 	@Override
@@ -29,10 +40,17 @@ public class Player implements character  {
 		if(isPressed(KeyCode.W,Keys) && playerimage.getTranslateY()>=5) {
 			jumpplayer();
 		}
-		if(isPressed(KeyCode.A,Keys)&&playerimage.getTranslateX()>=5)
+		if(isPressed(KeyCode.A,Keys)&&playerimage.getTranslateX()>=5) {
 			moveX(-5,platforms);
-		if(isPressed(KeyCode.D,Keys)&&playerimage.getTranslateX()+16<levelwidth-5)
+			//setScaleX(-1);
+			animation.play();
+			
+		}
+		if(isPressed(KeyCode.D,Keys)&&playerimage.getTranslateX()+30<levelwidth-5) {
 			moveX(5,platforms);
+			//setScaleX(1);
+			animation.play();
+		}
 		if(playerVelocity.getY()<10)
 			playerVelocity= playerVelocity.add(0,1);
 			
@@ -47,7 +65,7 @@ public class Player implements character  {
 			for(Node platform:platforms) {
 				if(playerimage.getBoundsInParent().intersects(platform.getBoundsInParent()))
 					if(moveRight) {
-						if(playerimage.getTranslateX()+16 == platform.getTranslateX())
+						if(playerimage.getTranslateX()+30 == platform.getTranslateX())
 							return;
 					}
 					else {
@@ -62,13 +80,16 @@ public class Player implements character  {
 		
 	}
 
-	public  Node createplayer(int x, int y, int width, int height,AnchorPane pane) {
-		playerimage = new ImageView(new Image("src/chrachter/mario1.png"));
+	public void createplayer(int x, int y,AnchorPane pane) {
+		playerimage = new ImageView(new Image("src/chrachter/mario (1).png"));
 		playerimage.setTranslateX(x);
 		playerimage.setTranslateY(y);
+		playerimage.setFitWidth(30);
+		playerimage.setFitHeight(30);
+		playerimage.setViewport(new Rectangle2D(offsetX,offsetY,width,height));
+        animation = new SpriteAnimation(playerimage,Duration.millis(200),count,columns,offsetX,offsetY,width,height);
 		pane.getChildren().add(playerimage);
 		
-		return playerimage;
 	}
 	
 	public void moveY(int value,ArrayList<Node> platforms) {
@@ -77,7 +98,7 @@ public class Player implements character  {
 			for(Node platform:platforms) {
 				if(playerimage.getBoundsInParent().intersects(platform.getBoundsInParent())) {
 					if(movedown) {
-						if(playerimage.getTranslateY()+32== platform.getTranslateY()) {
+						if(playerimage.getTranslateY()+30== platform.getTranslateY()) {
 							playerimage.setTranslateY(playerimage.getTranslateY()-1);
 							canjump =true;
 							return;
@@ -107,6 +128,10 @@ public class Player implements character  {
 	}
 	public Node getplayerimage() {
 		return playerimage;
+	}
+	
+	public void setplayerimageViewport() {
+		playerimage.setViewport(new Rectangle2D(offsetX-16,offsetY,width,height));
 	}
 
 }
